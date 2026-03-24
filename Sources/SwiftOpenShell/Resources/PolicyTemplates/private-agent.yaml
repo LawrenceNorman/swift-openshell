@@ -1,0 +1,22 @@
+# OpenShell Policy: Private Agent (Air-Gapped)
+# No network access. All inference must be local (Ollama/Nemotron).
+version: 1
+filesystem_policy:
+  include_workdir: true
+  read_only:
+    - /usr
+    - /lib
+    - /etc
+  read_write:
+    - /tmp
+  blocked:
+    - ~/.ssh
+    - ~/Library/Keychains
+    - ~/.gnupg
+    - ~/.config
+process:
+  run_as_user: sandbox
+  run_as_group: sandbox
+  max_runtime_seconds: 300
+landlock:
+  compatibility: best_effort
